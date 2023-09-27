@@ -72,7 +72,6 @@ const paymentMethods = [
   },
 ];
 
-const paymentRequest = new PaymentRequest(paymentMethods, paymentDetails);
 
 export default function App() {
   const [text, setText] = React.useState('');
@@ -83,7 +82,13 @@ export default function App() {
   }
 
   function checkCanMakePayment() {
-    paymentRequest
+      // paymentDetails are unique for each payment request, so we should be able to create
+      // a new PaymentRequest instance each time when we are on the checkout page.
+      // In this case when we attempt to make a payment again with a new instance it throws an error.
+      // We also can set this.paymentRequest to null if it has an instance already but still the same error.
+      // Please press GPay button two times and see result
+    this.paymentRequest = new PaymentRequest(paymentMethods, {...paymentDetails});
+    this.paymentRequest
       .canMakePayment()
       .then((canMakePayment) => {
         if (canMakePayment) {
@@ -98,7 +103,7 @@ export default function App() {
   }
 
   function showPaymentForm() {
-    paymentRequest
+    this.paymentRequest
       .show()
       .then((response) => {
         if (response === null) {
@@ -123,7 +128,7 @@ export default function App() {
       <Pressable onPress={checkCanMakePayment}>
         <Image
           source={{
-            uri: 'https://developers.google.com/static/pay/api/images/brand-guidelines/android-buy-button.png',
+            uri: 'https://corefy.com/docs/integration/payment-methods/images/buy-buttons-black-small.png',
           }}
           style={{ width: 168, height: 48, margin: 50 }}
         />
