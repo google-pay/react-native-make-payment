@@ -36,7 +36,7 @@ export class PaymentRequest {
       this.#version = pkg.version;
     } catch (_) {}
 
-    if (this.paymentMethods[GOOGLE_PAY_PMI]) {
+    if (this.paymentMethods[GOOGLE_PAY_PMI] && !this.paymentMethods[GOOGLE_PAY_PMI].merchantInfo.softwareInfo) {
       this.paymentMethods[GOOGLE_PAY_PMI].merchantInfo.softwareInfo = {
         id: this.#name.split('/').pop(),
         version: this.#version,
