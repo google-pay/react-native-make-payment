@@ -18,11 +18,12 @@ package com.makepayment
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import com.facebook.react.bridge.*
 import com.google.android.gms.wallet.*
 import com.google.android.gms.wallet.Wallet.WalletOptions
 import org.json.JSONException
-import android.util.Log
+
 
 /**
  * Native module bridging the Google Pay API to the React Native app.

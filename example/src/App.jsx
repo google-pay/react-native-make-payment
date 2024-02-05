@@ -15,8 +15,10 @@
  */
 
 import React, { useState } from 'react';
-import { View, Pressable, Image, Text } from 'react-native';
+import { View, Pressable, Image, Text, StyleSheet } from 'react-native';
 import { PaymentRequest } from '@google/react-native-make-payment';
+import GooglePayButtonView from './GooglePayButtonView';
+
 
 const paymentDetails = {
   total: {
@@ -72,6 +74,8 @@ const paymentMethods = [
   },
 ];
 
+
+
 const paymentRequest = new PaymentRequest(paymentMethods, paymentDetails);
 
 export default function App() {
@@ -112,23 +116,27 @@ export default function App() {
       });
   }
 
+  var styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    text: {
+      fontSize: 20,
+      textAlign: 'center',
+      margin: 10
+    },
+    googlepaybutton: {
+      height: 100,
+      width: 300,
+    },
+  });
+  
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Pressable onPress={checkCanMakePayment}>
-        <Image
-          source={{
-            uri: 'https://developers.google.com/static/pay/api/images/brand-guidelines/android-buy-button.png',
-          }}
-          style={{ width: 168, height: 48, margin: 50 }}
-        />
-      </Pressable>
-      <Text style="{{font-family: monospace, white-space: pre}}">{text}</Text>
-    </View>
+    <View style={styles.container}>
+      <GooglePayButtonView style={styles.googlepaybutton}></GooglePayButtonView>
+      <Text style={styles.text}>{text}</Text>
+    </View>   
   );
 }

@@ -9,6 +9,13 @@ const modules = Object.keys({
   ...pak.peerDependencies,
 });
 
+const extraNodeModules = {
+  'modules': path.resolve(path.join(__dirname, '../../modules'))
+};
+
+const nodeModulesPaths = [path.resolve(path.join(__dirname, './node_modules'))];
+
+
 module.exports = {
   projectRoot: __dirname,
   watchFolders: [root],
@@ -34,7 +41,11 @@ module.exports = {
       transform: {
         experimentalImportSupport: false,
         inlineRequires: true,
-      },
+      }      
     }),
   },
+  resolver: {
+    extraNodeModules,
+    nodeModulesPaths
+  }
 };
