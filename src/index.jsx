@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-import { NativeModules, Platform } from 'react-native';
+import React from 'react';
+import { NativeModules, Platform, requireNativeComponent } from 'react-native';
 
 const MakePayment = NativeModules.MakePayment;
 
 const GOOGLE_PAY_PMI = 'google_pay';
 
-export class PaymentRequest {
+class PaymentRequest {
   #name = '@google/react-native-make-payment';
   #version = '0.0.1';
 
@@ -66,3 +67,9 @@ export class PaymentRequest {
     });
   }
 }
+
+const GooglePayButtonConstants = NativeModules.GooglePayButtonConstants.getConstants();
+
+const GooglePayButton = requireNativeComponent('GooglePayButton');
+
+module.exports = { PaymentRequest, GooglePayButton, GooglePayButtonConstants };

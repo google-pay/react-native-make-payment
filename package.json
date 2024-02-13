@@ -1,7 +1,7 @@
 {
   "name": "@google/react-native-make-payment",
-  "version": "0.1.1",
-  "description": "test",
+  "version": "0.1.2",
+  "description": "React Native library for making native payments",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
