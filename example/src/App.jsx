@@ -15,7 +15,7 @@
  */
 
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { PaymentRequest, GooglePayButton, GooglePayButtonConstants } from '@google/react-native-make-payment';
 
 const paymentDetails = {
@@ -112,19 +112,26 @@ export default function App() {
       });
   }
 
+  var styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    googlepaybutton: {
+      height: 100,
+      width: 300,
+    },
+  });
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
+    <View style={styles.container}>
       <GooglePayButton
+        style={styles.googlepaybutton}
         onPress={checkCanMakePayment}
         allowedPaymentMethods={googlePayRequest.allowedPaymentMethods}
-        theme={GooglePayButtonConstants.Themes.Light}
-        type={GooglePayButtonConstants.Types.Pay}
+        theme={GooglePayButtonConstants.Themes.Dark}
+        type={GooglePayButtonConstants.Types.Buy}
         cornerRadius={10}
       />
       <Text style="{{font-family: monospace, white-space: pre}}">{text}</Text>
