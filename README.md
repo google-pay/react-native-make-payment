@@ -78,3 +78,16 @@ paymentRequest.canMakePayment().then((canMakePayment) => {
   }
 });
 ```
+
+### Google Pay Button
+Example of adding a native Google Pay button:
+
+```xml
+<GooglePayButton
+  style={styles.googlepaybutton}
+  onPress={checkCanMakePayment}
+  allowedPaymentMethods={googlePayRequest.allowedPaymentMethods}
+  theme={GooglePayButtonConstants.Themes.Dark}
+  type={GooglePayButtonConstants.Types.Buy}
+  radius={4}        
+/>
