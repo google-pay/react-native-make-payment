@@ -35,7 +35,7 @@ const googlePayRequest = {
       type: 'CARD',
       parameters: {
         allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-        allowedCardNetworks: [  
+        allowedCardNetworks: [
           'AMEX',
           'DISCOVER',
           'INTERAC',
@@ -141,6 +141,6 @@ export default function App() {
         radius={4}        
       />
       <Text style="{{font-family: monospace, white-space: pre}}">{text}</Text>
-    </ScrollView>    
+    </ScrollView>
   );
 }
