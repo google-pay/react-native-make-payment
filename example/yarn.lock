@@ -1037,13 +1037,6 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@google/react-native-make-payment@file:..":
-  version "0.1.2"
-  resolved "file:.."
-  dependencies:
-    "@babel/runtime" "^7.20.13"
-    next "^13.1.6"
-
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
   resolved "https://registry.npmjs.org/@hapi/hoek/-/hoek-9.3.0.tgz"
