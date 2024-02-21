@@ -13,14 +13,14 @@ class GooglePayButtonConstantsModule(reactContext: ReactApplicationContext) :
         themes["Light"] = ButtonConstants.ButtonTheme.LIGHT
 
         val types = hashMapOf<String, Int>()
-        themes["Book"] = ButtonConstants.ButtonType.BOOK
-        themes["Buy"] = ButtonConstants.ButtonType.BUY
-        themes["Checkout"] = ButtonConstants.ButtonType.CHECKOUT
-        themes["Donate"] = ButtonConstants.ButtonType.DONATE
-        themes["Order"] = ButtonConstants.ButtonType.ORDER
-        themes["Pay"] = ButtonConstants.ButtonType.PAY
-        themes["Plain"] = ButtonConstants.ButtonType.PLAIN
-        themes["Subscribe"] = ButtonConstants.ButtonType.SUBSCRIBE
+        types["Book"] = ButtonConstants.ButtonType.BOOK
+        types["Buy"] = ButtonConstants.ButtonType.BUY
+        types["Checkout"] = ButtonConstants.ButtonType.CHECKOUT
+        types["Donate"] = ButtonConstants.ButtonType.DONATE
+        types["Order"] = ButtonConstants.ButtonType.ORDER
+        types["Pay"] = ButtonConstants.ButtonType.PAY
+        types["Plain"] = ButtonConstants.ButtonType.PLAIN
+        types["Subscribe"] = ButtonConstants.ButtonType.SUBSCRIBE
 
         return hashMapOf("Themes" to themes, "Types" to types)
     }
