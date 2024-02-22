@@ -1,5 +1,7 @@
 # react-native-make-payment
 
+[![npm version](https://badge.fury.io/js/@google%2Freact-native-make-payment.svg)](https://badge.fury.io/js/@google%2Freact-native-make-payment)
+
 Adds native payments using the [W3C Payment Request API](https://web.dev/how-payment-request-api-works/) to your
 React Native app. Currently supports Google Pay on Android,
 with support planned for other platforms in the future.
