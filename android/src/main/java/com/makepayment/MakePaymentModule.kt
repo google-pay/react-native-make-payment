@@ -133,7 +133,7 @@ class MakePaymentModule(reactContext: ReactApplicationContext) :
         private const val LOAD_PAYMENT_DATA_REQUEST_CODE = 991
 
         private fun createPaymentsClient(context: ReactApplicationContext): PaymentsClient {
-            Log.d(NAME, "createPaymentsClient env" + BuildConfig.GOOGLE_PAY_ENVIRONMENT)
+            Log.d(NAME, "createPaymentsClient env=" + BuildConfig.GOOGLE_PAY_ENVIRONMENT)
             val env = if (BuildConfig.GOOGLE_PAY_ENVIRONMENT == "PRODUCTION") {
                 WalletConstants.ENVIRONMENT_PRODUCTION
             } else {

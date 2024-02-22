@@ -15,8 +15,8 @@
  */
 
 import React, { useState } from 'react';
-import { View, Pressable, Image, Text } from 'react-native';
-import { PaymentRequest } from '@google/react-native-make-payment';
+import { Text, StyleSheet, ScrollView } from 'react-native';
+import { PaymentRequest, GooglePayButton, GooglePayButtonConstants } from '@google/react-native-make-payment';
 
 const paymentDetails = {
   total: {
@@ -75,7 +75,7 @@ const paymentMethods = [
 const paymentRequest = new PaymentRequest(paymentMethods, paymentDetails);
 
 export default function App() {
-  const [text, setText] = React.useState('');
+  const [text, setText] = React.useState('React Native demo');
 
   function handleResponse(response) {
     setText(response);
@@ -112,23 +112,35 @@ export default function App() {
       });
   }
 
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Pressable onPress={checkCanMakePayment}>
-        <Image
-          source={{
-            uri: 'https://developers.google.com/static/pay/api/images/brand-guidelines/android-buy-button.png',
-          }}
-          style={{ width: 168, height: 48, margin: 50 }}
-        />
-      </Pressable>
+  var styles = StyleSheet.create({
+    scrollView: {
+      flexGrow: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    googlepaybutton: {
+      height: 100,
+      width: 300,
+    },
+  });
+
+  return (    
+    <ScrollView contentContainerStyle={styles.scrollView}>
+      
+      {/*
+        Showing the Google Pay button in any case. You might want to
+        do a paymentRequest.canMakePayment() check upfront and only
+        conditionally show the button
+      */}     
+      <GooglePayButton
+        style={styles.googlepaybutton}
+        onPress={checkCanMakePayment}
+        allowedPaymentMethods={googlePayRequest.allowedPaymentMethods}
+        theme={GooglePayButtonConstants.Themes.Dark}
+        type={GooglePayButtonConstants.Types.Buy}
+        radius={4}        
+      />
       <Text style="{{font-family: monospace, white-space: pre}}">{text}</Text>
-    </View>
+    </ScrollView>
   );
 }

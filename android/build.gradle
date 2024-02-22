@@ -73,7 +73,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation "com.google.android.gms:play-services-wallet:19.1.0"
+  implementation "com.google.android.gms:play-services-wallet:19.2.1"
 }
 
 if (isNewArchitectureEnabled()) {

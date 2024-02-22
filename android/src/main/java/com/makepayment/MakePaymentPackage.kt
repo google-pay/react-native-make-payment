@@ -22,7 +22,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
 
 class MakePaymentPackage : ReactPackage {
-    override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> = listOf(MakePaymentModule(reactContext))
+    override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> = listOf(MakePaymentModule(reactContext), GooglePayButtonConstantsModule(reactContext))
 
-    override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> = emptyList()
+    override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> = listOf(GooglePayButtonManager(reactContext))
 }

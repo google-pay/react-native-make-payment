@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Google LLC.
+ * Copyright 2024 Google LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
+import React from 'react';
 import { NativeModules, Platform } from 'react-native';
+import { GooglePayButton, GooglePayButtonConstants } from './GooglePayButton';
 
 const MakePayment = NativeModules.MakePayment;
 
 const GOOGLE_PAY_PMI = 'google_pay';
 
-export class PaymentRequest {
+class PaymentRequest {
   #name = '@google/react-native-make-payment';
-  #version = '0.0.1';
+  #version = '0.1.2';
 
   constructor(paymentMethods, paymentDetails) {
     this.paymentMethods = Object.fromEntries(
@@ -66,3 +68,5 @@ export class PaymentRequest {
     });
   }
 }
+
+module.exports = { PaymentRequest, GooglePayButton, GooglePayButtonConstants };
