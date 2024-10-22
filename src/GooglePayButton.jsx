@@ -19,7 +19,7 @@ import {NativeModules, requireNativeComponent, TouchableOpacity, StyleSheet} fro
 
 const NativeGooglePayButton = requireNativeComponent('GooglePayButton')
 
-const GooglePayButtonConstants = NativeModules.GooglePayButtonConstants.getConstants();
+const GooglePayButtonConstants = NativeModules.GooglePayButtonConstants?.getConstants();
 
 const GooglePayButton = ({
     onPress,
