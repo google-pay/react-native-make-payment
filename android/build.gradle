@@ -37,6 +37,12 @@ android {
   def agpVersion = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION
   if (agpVersion.tokenize('.')[0].toInteger() >= 7) {
     namespace "com.makepayment"
+
+    def manifestFile = file("${projectDir}/src/main/AndroidManifest.xml")
+    def manifestContent = manifestOutFile.getText()
+    manifestContent = manifestContent.replaceAll("package=\"com.makepayment\"", '')
+
+    manifestFile.write(manifestContent)
   }
 
   compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
