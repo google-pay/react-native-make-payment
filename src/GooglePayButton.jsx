@@ -33,8 +33,10 @@ const NativeGooglePayButton =
         );
       };
 
-const GooglePayButtonConstants =
-  NativeModules.GooglePayButtonConstants?.getConstants();
+export const GooglePayButtonConstants =
+    NativeModules.GooglePayButtonConstants.getViewManagerConfig?.(
+        'getConstants'
+    ) ?? NativeModules.GooglePayButtonConstants.getConstants?.();
 
 const GooglePayButton = ({
   onPress,
