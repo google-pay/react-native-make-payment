@@ -39,7 +39,7 @@ android {
     namespace "com.makepayment"
 
     def manifestFile = file("${projectDir}/src/main/AndroidManifest.xml")
-    def manifestContent = manifestOutFile.getText()
+    def manifestContent = manifestFile.getText()
     manifestContent = manifestContent.replaceAll("package=\"com.makepayment\"", '')
 
     manifestFile.write(manifestContent)
