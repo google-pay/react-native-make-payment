@@ -48,9 +48,9 @@ class MakePaymentModule(reactContext: ReactApplicationContext) :
                         // Received response from Google Pay API - resolve the current promise.
                         Activity.RESULT_OK -> {
                             try {
-                                intent?.let { intent ->
+                                intent?.let { i ->
                                     val paymentData = Convert.jsonStringToMap(
-                                        PaymentData.getFromIntent(intent)!!.toJson()
+                                        PaymentData.getFromIntent(i)!!.toJson()
                                     )
                                     loadPaymentDataPromise.resolve(paymentData)
                                 }
@@ -96,7 +96,7 @@ class MakePaymentModule(reactContext: ReactApplicationContext) :
             if (completedTask.isSuccessful) {
                 promise.resolve(completedTask.result)
             } else {
-                promise.reject(completedTask.exception)
+                promise.reject(E_UNABLE_TO_DETERMINE_GOOGLE_PAY_READINESS, completedTask.exception)
             }
         }
     }
@@ -131,6 +131,7 @@ class MakePaymentModule(reactContext: ReactApplicationContext) :
     companion object {
         private const val NAME = "MakePayment"
         private const val LOAD_PAYMENT_DATA_REQUEST_CODE = 991
+        private const val E_UNABLE_TO_DETERMINE_GOOGLE_PAY_READINESS = "E_UNABLE_TO_DETERMINE_GOOGLE_PAY_READINESS"
 
         private fun createPaymentsClient(context: ReactApplicationContext): PaymentsClient {
             Log.d(NAME, "createPaymentsClient env=" + BuildConfig.GOOGLE_PAY_ENVIRONMENT)
