@@ -14,50 +14,66 @@
  * limitations under the License.
  */
 
-import * as React from 'react'
-import {NativeModules, requireNativeComponent, TouchableOpacity, StyleSheet} from 'react-native'
+import * as React from 'react';
+import {
+  NativeModules,
+  requireNativeComponent,
+  TouchableOpacity,
+  StyleSheet,
+  UIManager,
+} from 'react-native';
 
-const NativeGooglePayButton = requireNativeComponent('GooglePayButton')
+const ComponentName = 'GooglePayButton';
+const NativeGooglePayButton =
+  UIManager.getViewManagerConfig(ComponentName) != null
+    ? requireNativeComponent(ComponentName)
+    : () => {
+        throw new Error(
+          `The package 'react-native-make-payment' doesn't seem to be linked.`
+        );
+      };
 
-const GooglePayButtonConstants = NativeModules.GooglePayButtonConstants?.getConstants();
+export const GooglePayButtonConstants =
+    NativeModules.GooglePayButtonConstants.getViewManagerConfig?.(
+        'getConstants'
+    ) ?? NativeModules.GooglePayButtonConstants.getConstants?.();
 
 const GooglePayButton = ({
-    onPress,
-    disabled,
-    allowedPaymentMethods,
-    theme,
-    type, 
-    radius,
-    style    
-  }) => {
-    return (
-      <TouchableOpacity
-        onPress={onPress}      
-        disabled={disabled}
-        activeOpacity={disabled ? 0.3 : 1}
-        style={[disabled ? styles.disabled : styles.notDisabled, style]}              
-      >
-        <NativeGooglePayButton
-            allowedPaymentMethods={allowedPaymentMethods}
-            type={type}
-            theme={theme}
-            radius={radius}
-            style={styles.nativeButtonStyle}
-        >
-        </NativeGooglePayButton>
-      </TouchableOpacity>
-    );
-  };
+  onPress,
+  disabled,
+  allowedPaymentMethods,
+  theme,
+  type,
+  radius,
+  style,
+}) => {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      activeOpacity={disabled ? 0.3 : 1}
+      style={[disabled ? styles.disabled : styles.notDisabled, style]}
+    >
+      <NativeGooglePayButton
+        allowedPaymentMethods={allowedPaymentMethods}
+        type={type}
+        theme={theme}
+        radius={radius}
+        style={styles.nativeButtonStyle}
+      ></NativeGooglePayButton>
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
-    disabled: {
-        flex: 0,
-        opacity: 0.4,
-    },
-    notDisabled: {
-        flex: 0,
-    },
-    nativeButtonStyle: { flex: 1 },
+  disabled: {
+    flex: 0,
+    opacity: 0.4,
+  },
+  notDisabled: {
+    flex: 0,
+  },
+  nativeButtonStyle: { flex: 1 },
 });
 
 module.exports = { GooglePayButton, GooglePayButtonConstants };
