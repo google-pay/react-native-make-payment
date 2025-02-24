@@ -3,16 +3,19 @@ package com.makepayment
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.google.android.gms.wallet.button.ButtonConstants
+import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.WritableMap
+import com.facebook.react.bridge.WritableNativeMap
 
 class GooglePayButtonConstantsModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
 
-    override fun getConstants(): HashMap<String, Any> {
-        val themes = hashMapOf<String, Int>()
+    override fun getConstants(): MutableMap<String, Any> {
+        val themes = mutableMapOf<String, Int>()
         themes["Dark"] = ButtonConstants.ButtonTheme.DARK
         themes["Light"] = ButtonConstants.ButtonTheme.LIGHT
 
-        val types = hashMapOf<String, Int>()
+        val types = mutableMapOf<String, Int>()
         types["Book"] = ButtonConstants.ButtonType.BOOK
         types["Buy"] = ButtonConstants.ButtonType.BUY
         types["Checkout"] = ButtonConstants.ButtonType.CHECKOUT
@@ -22,7 +25,10 @@ class GooglePayButtonConstantsModule(reactContext: ReactApplicationContext) :
         types["Plain"] = ButtonConstants.ButtonType.PLAIN
         types["Subscribe"] = ButtonConstants.ButtonType.SUBSCRIBE
 
-        return hashMapOf("Themes" to themes, "Types" to types)
+        return mutableMapOf(
+            "Themes" to themes,
+            "Types" to types
+        )
     }
 
     override fun getName() = NAME
