@@ -49,16 +49,28 @@ object Convert {
     }
 
     @Throws(JSONException::class)
-    fun arrayToJson(readableArray: ReadableArray): JSONArray {
+    fun arrayToJson(readableArray: ReadableArray?): JSONArray {
         val array = JSONArray()
+        if (readableArray == null) {
+            return array
+        }
         for (i in 0 until readableArray.size()) {
             when (readableArray.getType(i)) {
-                ReadableType.Null -> {}
+                ReadableType.Null -> array.put(JSONObject.NULL)
                 ReadableType.Boolean -> array.put(readableArray.getBoolean(i))
                 ReadableType.Number -> array.put(readableArray.getDouble(i))
-                ReadableType.String -> array.put(readableArray.getString(i))
-                ReadableType.Map -> array.put(mapToJson(readableArray.getMap(i)))
-                ReadableType.Array -> array.put(arrayToJson(readableArray.getArray(i)))
+                ReadableType.String -> {
+                    val str = readableArray.getString(i)
+                    array.put(str ?: JSONObject.NULL)
+                }
+                ReadableType.Map -> {
+                    val map = readableArray.getMap(i)
+                    array.put(map?.let { mapToJson(it) } ?: JSONObject.NULL)
+                }
+                ReadableType.Array -> {
+                    val nestedArray = readableArray.getArray(i)
+                    array.put(nestedArray?.let { arrayToJson(it) } ?: JSONObject.NULL)
+                }
             }
         }
         return array
