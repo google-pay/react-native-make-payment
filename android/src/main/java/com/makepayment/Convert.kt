@@ -41,8 +41,14 @@ object Convert {
                 ReadableType.Boolean -> jsonObject.put(key, readableMap.getBoolean(key))
                 ReadableType.Number -> jsonObject.put(key, readableMap.getDouble(key))
                 ReadableType.String -> jsonObject.put(key, readableMap.getString(key))
-                ReadableType.Map -> jsonObject.put(key, mapToJson(readableMap.getMap(key)!!))
-                ReadableType.Array -> jsonObject.put(key, arrayToJson(readableMap.getArray(key)!!))
+                ReadableType.Map -> {
+                    val map = readableMap.getMap(key)
+                    jsonObject.put(key, map?.let { mapToJson(it) } ?: JSONObject.NULL)
+                }
+                ReadableType.Array -> {
+                    val array = readableMap.getArray(key)
+                    jsonObject.put(key, array?.let { arrayToJson(it) } ?: JSONObject.NULL)
+                }
             }
         }
         return jsonObject
