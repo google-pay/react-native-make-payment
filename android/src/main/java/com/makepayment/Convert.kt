@@ -41,8 +41,8 @@ object Convert {
                 ReadableType.Boolean -> jsonObject.put(key, readableMap.getBoolean(key))
                 ReadableType.Number -> jsonObject.put(key, readableMap.getDouble(key))
                 ReadableType.String -> jsonObject.put(key, readableMap.getString(key))
-                ReadableType.Map -> jsonObject.put(key, mapToJson(readableMap.getMap(key)!!))
-                ReadableType.Array -> jsonObject.put(key, arrayToJson(readableMap.getArray(key)!!))
+                ReadableType.Map -> jsonObject.put(key, readableMap.getMap(key)?.let { mapToJson(it) } ?: JSONObject.NULL)
+                ReadableType.Array -> jsonObject.put(key, readableMap.getArray(key)?.let { arrayToJson(it) } ?: JSONObject.NULL)
             }
         }
         return jsonObject
@@ -53,12 +53,12 @@ object Convert {
         val array = JSONArray()
         for (i in 0 until readableArray.size()) {
             when (readableArray.getType(i)) {
-                ReadableType.Null -> {}
+                ReadableType.Null -> array.put(JSONObject.NULL)
                 ReadableType.Boolean -> array.put(readableArray.getBoolean(i))
                 ReadableType.Number -> array.put(readableArray.getDouble(i))
                 ReadableType.String -> array.put(readableArray.getString(i))
-                ReadableType.Map -> array.put(mapToJson(readableArray.getMap(i)))
-                ReadableType.Array -> array.put(arrayToJson(readableArray.getArray(i)))
+                ReadableType.Map -> array.put(readableArray.getMap(i)?.let { mapToJson(it) } ?: JSONObject.NULL)
+                ReadableType.Array -> array.put(readableArray.getArray(i)?.let { arrayToJson(it) } ?: JSONObject.NULL)
             }
         }
         return array
