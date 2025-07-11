@@ -16,7 +16,11 @@
 
 import React, { useState } from 'react';
 import { Text, StyleSheet, ScrollView } from 'react-native';
-import { PaymentRequest, GooglePayButton, GooglePayButtonConstants } from '@google/react-native-make-payment';
+import {
+  PaymentRequest,
+  GooglePayButton,
+  GooglePayButtonConstants,
+} from '@google/react-native-make-payment';
 
 const paymentDetails = {
   total: {
@@ -116,7 +120,7 @@ export default function App() {
     scrollView: {
       flexGrow: 1,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     googlepaybutton: {
       height: 100,
@@ -124,21 +128,20 @@ export default function App() {
     },
   });
 
-  return (    
+  return (
     <ScrollView contentContainerStyle={styles.scrollView}>
-      
       {/*
         Showing the Google Pay button in any case. You might want to
         do a paymentRequest.canMakePayment() check upfront and only
         conditionally show the button
-      */}     
+      */}
       <GooglePayButton
         style={styles.googlepaybutton}
         onPress={checkCanMakePayment}
         allowedPaymentMethods={googlePayRequest.allowedPaymentMethods}
         theme={GooglePayButtonConstants.Themes.Dark}
         type={GooglePayButtonConstants.Types.Buy}
-        radius={4}        
+        radius={4}
       />
       <Text style="{{font-family: monospace, white-space: pre}}">{text}</Text>
     </ScrollView>
