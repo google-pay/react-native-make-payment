@@ -1,6 +1,6 @@
 {
   "name": "@google/react-native-make-payment",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "React Native library for making native payments",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepack": "bob build",
     "release": "release-it",
@@ -63,6 +63,7 @@
     "@evilmartians/lefthook": "^1.2.2",
     "@react-native-community/eslint-config": "^3.0.2",
     "@release-it/conventional-changelog": "^8.0.0",
+    "@types/googlepay": "^0.7.6",
     "@types/jest": "^28.1.2",
     "@types/react": "~17.0.21",
     "@types/react-native": "0.70.0",
@@ -78,7 +79,7 @@
     "react-native": "0.71.3",
     "react-native-builder-bob": "^0.20.0",
     "release-it": "^17.0.0",
-    "typescript": "^4.5.2"
+    "typescript": "^5.8.3"
   },
   "resolutions": {
     "@types/react": "17.0.21"
@@ -90,7 +91,6 @@
   "engines": {
     "node": ">= 16.0.0"
   },
-  "packageManager": "^yarn@1.22.15",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -155,10 +155,12 @@
     "output": "lib",
     "targets": [
       "commonjs",
-      "module"
+      "module",
+      "typescript"
     ]
   },
   "dependencies": {
     "@babel/runtime": "^7.20.13"
-  }
+  },
+  "packageManager": "yarn@4.9.2"
 }
