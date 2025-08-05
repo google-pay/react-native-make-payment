@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-import React from 'react';
 import { NativeModules, Platform } from 'react-native';
-import { GooglePayButton, GooglePayButtonConstants } from './GooglePayButton';
+import type { PaymentDetails, PaymentMethod } from './types';
 
 const MakePayment = NativeModules.MakePayment;
 
 const GOOGLE_PAY_PMI = 'google_pay';
 
-class PaymentRequest {
-  #name = '@google/react-native-make-payment';
-  #version = '0.1.2';
+export class PaymentRequest {
+  name = '@google/react-native-make-payment';
+  version = '0.1.2';
 
-  constructor(paymentMethods, paymentDetails) {
+  paymentMethods: {
+    [key: string]: google.payments.api.PaymentDataRequest;
+  };
+  paymentDetails: PaymentDetails;
+
+  constructor(paymentMethods: PaymentMethod[], paymentDetails: PaymentDetails) {
     this.paymentMethods = Object.fromEntries(
       paymentMethods.map((pm) => [pm.supportedMethods, pm.data])
     );
@@ -34,8 +38,8 @@ class PaymentRequest {
 
     try {
       const pkg = require('../package.json');
-      this.#name = pkg.name;
-      this.#version = pkg.version;
+      this.name = pkg.name;
+      this.version = pkg.version;
     } catch (_) {}
 
     if (
@@ -43,8 +47,8 @@ class PaymentRequest {
       !this.paymentMethods[GOOGLE_PAY_PMI].merchantInfo.softwareInfo
     ) {
       this.paymentMethods[GOOGLE_PAY_PMI].merchantInfo.softwareInfo = {
-        id: this.#name.split('/').pop(),
-        version: this.#version,
+        id: this.name.split('/').pop(),
+        version: this.version,
       };
     }
   }
@@ -66,10 +70,11 @@ class PaymentRequest {
   }
 
   unsupported() {
-    return new Promise((resolve, reject) => {
+    return new Promise((_, reject) => {
       reject('Platform not supported');
     });
   }
 }
 
-module.exports = { PaymentRequest, GooglePayButton, GooglePayButtonConstants };
+export * from './types';
+export { GooglePayButton, GooglePayButtonConstants } from './GooglePayButton';

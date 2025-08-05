@@ -14,17 +14,32 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
+import type * as React from 'react';
 import {
   NativeModules,
   requireNativeComponent,
-  TouchableOpacity,
   StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
   UIManager,
+  type ViewStyle,
 } from 'react-native';
+import type {
+  GooglePayButtonConstantsType,
+  GooglePayButtonTheme,
+  GooglePayButtonType,
+} from './types';
+
+export interface NativeGooglePayButtonProps {
+  allowedPaymentMethods?: google.payments.api.PaymentMethodSpecification[];
+  theme?: GooglePayButtonTheme;
+  type?: GooglePayButtonType;
+  radius?: number;
+  style?: ViewStyle;
+}
 
 const ComponentName = 'GooglePayButton';
-const NativeGooglePayButton =
+const NativeGooglePayButton: React.ComponentType<NativeGooglePayButtonProps> =
   UIManager.getViewManagerConfig(ComponentName) != null
     ? requireNativeComponent(ComponentName)
     : () => {
@@ -33,12 +48,12 @@ const NativeGooglePayButton =
         );
       };
 
-export const GooglePayButtonConstants =
-    NativeModules.GooglePayButtonConstants.getViewManagerConfig?.(
-        'getConstants'
-    ) ?? NativeModules.GooglePayButtonConstants.getConstants?.();
+export const GooglePayButtonConstants: GooglePayButtonConstantsType =
+  NativeModules.GooglePayButtonConstants.getViewManagerConfig?.(
+    'getConstants'
+  ) ?? NativeModules.GooglePayButtonConstants.getConstants?.();
 
-const GooglePayButton = ({
+export const GooglePayButton = ({
   onPress,
   disabled,
   allowedPaymentMethods,
@@ -46,7 +61,7 @@ const GooglePayButton = ({
   type,
   radius,
   style,
-}) => {
+}: TouchableOpacityProps & NativeGooglePayButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -60,7 +75,7 @@ const GooglePayButton = ({
         theme={theme}
         radius={radius}
         style={styles.nativeButtonStyle}
-      ></NativeGooglePayButton>
+      />
     </TouchableOpacity>
   );
 };
@@ -75,5 +90,3 @@ const styles = StyleSheet.create({
   },
   nativeButtonStyle: { flex: 1 },
 });
-
-module.exports = { GooglePayButton, GooglePayButtonConstants };
