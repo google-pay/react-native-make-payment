@@ -43,11 +43,15 @@ object Convert {
                 ReadableType.String -> jsonObject.put(key, readableMap.getString(key))
                 ReadableType.Map -> {
                     val map = readableMap.getMap(key)
-                    jsonObject.put(key, map?.let { mapToJson(it) } ?: JSONObject.NULL)
+                    if (map != null) {
+                        jsonObject.put(key, map?.let { mapToJson(it) } ?: JSONObject.NULL)
+                    }
                 }
                 ReadableType.Array -> {
                     val array = readableMap.getArray(key)
-                    jsonObject.put(key, array?.let { arrayToJson(it) } ?: JSONObject.NULL)
+                    if (array != null) {
+                        jsonObject.put(key, array?.let { arrayToJson(it) } ?: JSONObject.NULL)
+                    }
                 }
             }
         }
@@ -71,11 +75,15 @@ object Convert {
                 }
                 ReadableType.Map -> {
                     val map = readableArray.getMap(i)
-                    array.put(map?.let { mapToJson(it) } ?: JSONObject.NULL)
+                    if (map != null) {
+                        array.put(map?.let { mapToJson(it) } ?: JSONObject.NULL)
+                    }
                 }
                 ReadableType.Array -> {
                     val nestedArray = readableArray.getArray(i)
-                    array.put(nestedArray?.let { arrayToJson(it) } ?: JSONObject.NULL)
+                    if (nestedArray != null) {
+                        array.put(nestedArray?.let { arrayToJson(it) } ?: JSONObject.NULL)
+                    }
                 }
             }
         }
