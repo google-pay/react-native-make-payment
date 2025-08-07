@@ -1,28 +1,62 @@
-/*
- * Copyright 2023 Google LLC.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.makepayment
 
-import com.facebook.react.ReactPackage
+import com.facebook.react.BaseReactPackage
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.module.model.ReactModuleInfo
+import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.uimanager.ViewManager
+import java.util.HashMap
 
-class MakePaymentPackage : ReactPackage {
-    override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> = listOf(MakePaymentModule(reactContext), GooglePayButtonConstantsModule(reactContext))
+class MakePaymentPackage : BaseReactPackage() {
+  override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
+    return when (name) {
+      MakePaymentModule.NAME -> MakePaymentModule(reactContext)
+      GooglePayButtonConstantsModule.NAME -> GooglePayButtonConstantsModule(reactContext)
+      GooglePayButtonComponentManager.REACT_CLASS -> GooglePayButtonComponentManager(reactContext)
+      else -> null
+    }
+  }
 
-    override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> = listOf(GooglePayButtonManager(reactContext))
+  override fun getReactModuleInfoProvider(): ReactModuleInfoProvider {
+    return ReactModuleInfoProvider {
+      val moduleInfos: MutableMap<String, ReactModuleInfo> = HashMap()
+      moduleInfos[MakePaymentModule.NAME] = ReactModuleInfo(
+        MakePaymentModule.NAME,
+        MakePaymentModule.NAME,
+        false,  // canOverrideExistingModule
+        false,  // needsEagerInit
+        false,  // isCxxModule
+        true // isTurboModule
+      )
+      moduleInfos[GooglePayButtonConstantsModule.NAME] = ReactModuleInfo(
+        GooglePayButtonConstantsModule.NAME,
+        GooglePayButtonConstantsModule.NAME,
+        false,  // canOverrideExistingModule
+        false,  // needsEagerInit
+        false,  // isCxxModule
+        true // isTurboModule
+      )
+      moduleInfos[GooglePayButtonComponentManager.REACT_CLASS] = ReactModuleInfo(
+        GooglePayButtonComponentManager.REACT_CLASS,
+        GooglePayButtonComponentManager.REACT_CLASS,
+        false,  // canOverrideExistingModule
+        false,  // needsEagerInit
+        false,  // isCxxModule
+        true // isTurboModule
+      )
+      moduleInfos
+    }
+  }
+
+  override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
+    return listOf(
+      MakePaymentModule(reactContext),
+      GooglePayButtonComponentManager(reactContext),
+    )
+  }
+
+  override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> {
+    return listOf(GooglePayButtonComponentManager(reactContext))
+  }
 }

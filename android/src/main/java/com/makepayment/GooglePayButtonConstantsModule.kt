@@ -1,40 +1,42 @@
 package com.makepayment
 
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.google.android.gms.wallet.button.ButtonConstants
 import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.WritableMap
-import com.facebook.react.bridge.WritableNativeMap
+import com.facebook.react.module.annotations.ReactModule
+import com.google.android.gms.wallet.button.ButtonConstants
 
+@ReactModule(name = GooglePayButtonConstantsModule.NAME)
 class GooglePayButtonConstantsModule(reactContext: ReactApplicationContext) :
-    ReactContextBaseJavaModule(reactContext) {
+  NativeGooglePayButtonConstantsModuleSpec(reactContext) {
 
-    override fun getConstants(): MutableMap<String, Any> {
-        val themes = mutableMapOf<String, Int>()
-        themes["Dark"] = ButtonConstants.ButtonTheme.DARK
-        themes["Light"] = ButtonConstants.ButtonTheme.LIGHT
+  override fun getName(): String {
+    return NAME
+  }
 
-        val types = mutableMapOf<String, Int>()
-        types["Book"] = ButtonConstants.ButtonType.BOOK
-        types["Buy"] = ButtonConstants.ButtonType.BUY
-        types["Checkout"] = ButtonConstants.ButtonType.CHECKOUT
-        types["Donate"] = ButtonConstants.ButtonType.DONATE
-        types["Order"] = ButtonConstants.ButtonType.ORDER
-        types["Pay"] = ButtonConstants.ButtonType.PAY
-        types["Plain"] = ButtonConstants.ButtonType.PLAIN
-        types["Subscribe"] = ButtonConstants.ButtonType.SUBSCRIBE
+  override fun loadConstants(): WritableMap? {
+    val themes = Arguments.createMap()
+    themes.putInt("Dark", ButtonConstants.ButtonTheme.DARK)
+    themes.putInt("Light", ButtonConstants.ButtonTheme.LIGHT)
 
-        return mutableMapOf(
-            "Themes" to themes,
-            "Types" to types
-        )
-    }
+    val types = Arguments.createMap()
+    types.putInt("Book", ButtonConstants.ButtonType.BOOK)
+    types.putInt("Buy", ButtonConstants.ButtonType.BUY)
+    types.putInt("Checkout", ButtonConstants.ButtonType.CHECKOUT)
+    types.putInt("Donate", ButtonConstants.ButtonType.DONATE)
+    types.putInt("Order", ButtonConstants.ButtonType.ORDER)
+    types.putInt("Pay", ButtonConstants.ButtonType.PAY)
+    types.putInt("Plain", ButtonConstants.ButtonType.PLAIN)
+    types.putInt("Subscribe", ButtonConstants.ButtonType.SUBSCRIBE)
 
-    override fun getName() = NAME
+    val constants = Arguments.createMap()
+    constants.putMap("Themes", themes)
+    constants.putMap("Types", types)
+    return constants
+  }
 
-    companion object {
-        private const val NAME = "GooglePayButtonConstants"
-    }
-
+  companion object {
+    const val NAME = "GooglePayButtonConstantsModule"
+  }
 }
+
