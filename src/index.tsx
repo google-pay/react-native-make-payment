@@ -53,7 +53,7 @@ export class PaymentRequest {
     }
   }
 
-  canMakePayment() {
+  async canMakePayment(): Promise<boolean> {
     return Platform.select({
       android: () =>
         MakePayment.isReadyToPay(this.paymentMethods[GOOGLE_PAY_PMI]),
@@ -61,7 +61,7 @@ export class PaymentRequest {
     })();
   }
 
-  show() {
+  async show(): Promise<google.payments.api.PaymentData> {
     return Platform.select({
       android: () =>
         MakePayment.loadPaymentData(this.paymentMethods[GOOGLE_PAY_PMI]),
@@ -69,7 +69,7 @@ export class PaymentRequest {
     })();
   }
 
-  unsupported() {
+  async unsupported() {
     return new Promise((_, reject) => {
       reject('Platform not supported');
     });
