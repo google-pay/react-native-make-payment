@@ -117,5 +117,5 @@
   "dependencies": {
     "@types/googlepay": "^0.7.6"
   },
-  "packageManager": "yarn@3.6.1"
+  "packageManager": "yarn@4.9.2"
 }
