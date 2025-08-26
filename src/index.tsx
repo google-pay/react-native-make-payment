@@ -9,15 +9,11 @@ const GOOGLE_PAY_PMI = 'google_pay';
 declare const __LIB_NAME__: string;
 declare const __LIB_VERSION__: string;
 
-let NAME:string, VERSION:string;
-
-try {
-	const pkg = require('../package.json');
-	NAME = pkg.name;
-	VERSION = pkg.version;
-} catch {
-	NAME = __LIB_NAME__;
-	VERSION = __LIB_VERSION__;
-}
+// Prefer injected constants to avoid bundling or resolving package.json at runtime.
+// This remains safe if the transform didn't run (typeof on an undeclared identifier is 'undefined').
+const NAME: string =
+  typeof __LIB_NAME__ !== 'undefined' ? __LIB_NAME__ : '@google/react-native-make-payment';
+const VERSION: string =
+  typeof __LIB_VERSION__ !== 'undefined' ? __LIB_VERSION__ : '0.0.0';
 
 export { GOOGLE_PAY_PMI, NAME, VERSION };

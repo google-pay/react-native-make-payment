@@ -3,6 +3,7 @@ package com.makepayment
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.WritableMap
+import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.module.annotations.ReactModule
 import com.google.android.gms.wallet.button.ButtonConstants
 
@@ -14,6 +15,7 @@ class GooglePayButtonConstantsModule(reactContext: ReactApplicationContext) :
     return NAME
   }
 
+  @ReactMethod(isBlockingSynchronousMethod = true)
   override fun loadConstants(): WritableMap? {
     val themes = Arguments.createMap()
     themes.putInt("Dark", ButtonConstants.ButtonTheme.DARK)
@@ -39,4 +41,3 @@ class GooglePayButtonConstantsModule(reactContext: ReactApplicationContext) :
     const val NAME = "GooglePayButtonConstantsModule"
   }
 }
-

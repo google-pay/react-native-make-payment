@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, ScrollView, StyleSheet } from 'react-native';
+import { Text, ScrollView, StyleSheet, NativeModules } from 'react-native';
 import { 
   NAME, VERSION, GOOGLE_PAY_PMI, 
   PaymentRequest, GooglePayButton, GooglePayButtonConstants
@@ -62,8 +62,17 @@ const paymentMethods = [
 const paymentRequest = new PaymentRequest(paymentMethods, paymentDetails);
 
 export default function App() {
-  const [text, setText] = React.useState(`${NAME} v${VERSION}`);
+  const [text, setText] = React.useState('');
   const [disabled, toggleDisabled] = React.useState(true);
+  const isTurbo = (global as any).__turboModuleProxy != null;
+  const isFabric = (global as any).nativeFabricUIManager != null;
+  const isNewArch = isTurbo || isFabric;
+  const archLabel = isNewArch ? 'Turbo/Fabric (newarch=true)' : 'Bridge (newarch=false)';
+
+  React.useEffect(() => {
+    const label =
+    setText(`${NAME}\nversion: ${VERSION}\narch: ${archLabel}`);
+  }, [isNewArch]);
 
   function handleResponse(response) {
     console.log(response);
@@ -143,5 +152,6 @@ const styles = StyleSheet.create({
     fontFamily: 'monospace',
     whiteSpace: 'pre',
     fontSize: 13,
+    textAlign: 'center',
   },
 });

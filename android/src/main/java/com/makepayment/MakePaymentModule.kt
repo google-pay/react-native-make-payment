@@ -7,6 +7,7 @@ import com.facebook.react.bridge.BaseActivityEventListener
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.module.annotations.ReactModule
 import com.google.android.gms.wallet.AutoResolveHelper
 import com.google.android.gms.wallet.IsReadyToPayRequest
@@ -70,6 +71,7 @@ class MakePaymentModule(reactContext: ReactApplicationContext) :
     return NAME
   }
 
+  @ReactMethod
   override fun isReadyToPay(data: ReadableMap?, promise: Promise?) {
     val json = try {
       data?.let { Convert.mapToJson(it).toString() }
@@ -90,6 +92,7 @@ class MakePaymentModule(reactContext: ReactApplicationContext) :
     }
   }
 
+  @ReactMethod
   override fun loadPaymentData(data: ReadableMap?, promise: Promise?) {
     val json = try {
       data?.let { Convert.mapToJson(it).toString() }

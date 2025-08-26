@@ -1,5 +1,5 @@
 import type { TurboModule } from 'react-native';
-import { TurboModuleRegistry } from 'react-native';
+import { TurboModuleRegistry, NativeModules } from 'react-native';
 
 export type GooglePayPaymentData = {
   apiVersion: number;
@@ -48,4 +48,7 @@ export interface Spec extends TurboModule {
   loadPaymentData(data: GooglePayPaymentData): Promise<GooglePayPaymentData>;
 };
 
-export default TurboModuleRegistry.getEnforcing<Spec>('MakePaymentModule');
+export default (
+  TurboModuleRegistry.get<Spec>('MakePaymentModule') ||
+  (NativeModules.MakePaymentModule as Spec)
+);

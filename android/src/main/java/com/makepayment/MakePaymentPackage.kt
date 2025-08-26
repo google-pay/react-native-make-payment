@@ -52,7 +52,7 @@ class MakePaymentPackage : BaseReactPackage() {
   override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
     return listOf(
       MakePaymentModule(reactContext),
-      GooglePayButtonComponentManager(reactContext),
+      GooglePayButtonConstantsModule(reactContext),
     )
   }
 
