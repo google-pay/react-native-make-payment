@@ -24,7 +24,9 @@ class MakePaymentModule(reactContext: ReactApplicationContext) :
 
   private val paymentsClient = createPaymentsClient(reactContext)
 
-  private lateinit var loadPaymentDataPromise: Promise
+  // Keep a nullable promise reference to avoid lateinit crashes if
+  // onActivityResult is delivered without an active request.
+  private var loadPaymentDataPromise: Promise? = null
 
   init {
     // Add the event listener which manages responses from the Google Pay API.
@@ -36,6 +38,11 @@ class MakePaymentModule(reactContext: ReactApplicationContext) :
         intent: Intent?
       ) {
         if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
+          val promiseRef = loadPaymentDataPromise
+          if (promiseRef == null) {
+            Log.w(NAME, "Received activity result but no pending promise")
+            return
+          }
           when (resultCode) {
             // Received response from Google Pay API - resolve the current promise.
             Activity.RESULT_OK -> {
@@ -44,22 +51,29 @@ class MakePaymentModule(reactContext: ReactApplicationContext) :
                   val paymentData = Convert.jsonStringToMap(
                     PaymentData.getFromIntent(i)!!.toJson()
                   )
-                  loadPaymentDataPromise.resolve(paymentData)
+                  promiseRef.resolve(paymentData)
                 }
               } catch (e: JSONException) {
-                loadPaymentDataPromise.reject(e)
+                promiseRef.reject(e)
               }
+              loadPaymentDataPromise = null
             }
             // User cancelled payment sheet, resolve the current promise with null response.
-            Activity.RESULT_CANCELED -> loadPaymentDataPromise.resolve(null)
+            Activity.RESULT_CANCELED -> {
+              promiseRef.resolve(null)
+              loadPaymentDataPromise = null
+            }
             // Error occurred, reject the current promise.
             AutoResolveHelper.RESULT_ERROR -> {
               AutoResolveHelper.getStatusFromIntent(intent)?.let { status ->
-                loadPaymentDataPromise.reject(
+                promiseRef.reject(
                   "loadPaymentData error",
                   status.statusCode.toString()
                 )
+              } ?: run {
+                promiseRef.reject("loadPaymentData error", "unknown status")
               }
+              loadPaymentDataPromise = null
             }
           }
         }
@@ -102,13 +116,24 @@ class MakePaymentModule(reactContext: ReactApplicationContext) :
       return
     }
 
-    loadPaymentDataPromise = promise!!
-    currentActivity?.let { activity ->
-      AutoResolveHelper.resolveTask(
-        paymentsClient.loadPaymentData(PaymentDataRequest.fromJson(json.toString())),
-        activity, LOAD_PAYMENT_DATA_REQUEST_CODE
-      )
+    val activity = currentActivity
+    if (activity == null) {
+      promise?.reject("E_ACTIVITY_DOES_NOT_EXIST", "Activity doesn't exist")
+      return
     }
+    if (loadPaymentDataPromise != null) {
+      promise?.reject("E_ALREADY_IN_PROGRESS", "A loadPaymentData request is already in progress")
+      return
+    }
+    if (promise == null) {
+      Log.w(NAME, "loadPaymentData called without a promise")
+      return
+    }
+    loadPaymentDataPromise = promise
+    AutoResolveHelper.resolveTask(
+      paymentsClient.loadPaymentData(PaymentDataRequest.fromJson(json.toString())),
+      activity, LOAD_PAYMENT_DATA_REQUEST_CODE
+    )
   }
 
   companion object {
