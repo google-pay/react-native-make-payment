@@ -3,15 +3,28 @@
   "version": "0.2.0",
   "description": "React Native library for making native payments",
   "main": "./lib/module/index.js",
+  "react-native": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "exports": {
     ".": {
       "source": "./src/index.tsx",
       "types": "./lib/typescript/src/index.d.ts",
+      "react-native": "./lib/module/index.js",
       "default": "./lib/module/index.js"
     },
     "./package.json": "./package.json"
   },
+  "files": [
+    "lib",
+    "android/src",
+    "android/build.gradle",
+    "android/gradle.properties",
+    "ios",
+    "src",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
   "scripts": {
     "example": "yarn install & cd example && yarn install && yarn android",
     "test": "jest",
@@ -19,6 +32,7 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "rm -rf yarn.lock, example/yarn.lock android/build example/android/build example/android/app/build lib node_modules example/node_modules",
     "build": "bob build",
+    "prepack": "bob build",
     "codegen": "cd example/android && ./gradlew generateCodegenArtifactsFromSchema && cd ../."
   },
   "keywords": [
