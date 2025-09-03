@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import MakePayment from './specs/NativeMakePaymentModule';
 import type { GooglePayPaymentData } from './specs/NativeMakePaymentModule';
-import { NAME, VERSION, GOOGLE_PAY_PMI } from './';
+import { NAME, VERSION, GOOGLE_PAY_PMI } from './constants';
 
 export type W3CGooglePayPaymentMethod = {
   supportedMethods: string;
