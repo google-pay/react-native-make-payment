@@ -2,18 +2,11 @@
   "name": "@google/react-native-make-payment",
   "version": "0.2.0",
   "description": "React Native library for making native payments",
-  "main": "./lib/module/index.js",
-  "react-native": "./lib/module/index.js",
-  "types": "./lib/typescript/src/index.d.ts",
-  "exports": {
-    ".": {
-      "source": "./src/index.tsx",
-      "types": "./lib/typescript/src/index.d.ts",
-      "react-native": "./lib/module/index.js",
-      "default": "./lib/module/index.js"
-    },
-    "./package.json": "./package.json"
-  },
+  "main": "lib/module/index",
+  "module": "lib/module/index",
+  "types": "lib/typescript/index.d.ts",
+  "react-native": "src/index",
+  "source": "src/index",
   "files": [
     "lib",
     "android/src",
@@ -105,19 +98,8 @@
     "source": "src",
     "output": "lib",
     "targets": [
-      [
-        "module",
-        {
-          "configFile": true,
-          "esm": true
-        }
-      ],
-      [
-        "typescript",
-        {
-          "project": "tsconfig.json"
-        }
-      ]
+      "module",
+      "typescript"
     ]
   },
   "codegenConfig": {

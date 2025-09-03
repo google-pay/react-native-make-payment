@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
-    "paths": {
-      "react-native-make-payment": ["./src/index"]
-    },
+    "rootDir": "src",
+    "outDir": "lib/typescript",
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
