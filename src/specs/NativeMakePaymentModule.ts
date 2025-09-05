@@ -109,7 +109,7 @@ export type GooglePayPaymentMethodData = {
   description: string;
   /**
   * The value of this property depends on the payment method `type` returned.
-  * For `CARD`, see {@link https://developers.google.com/pay/api/web/reference/response-objects#CardInfo|CardInfo}.
+  * For `CARD`, see {@link GooglePayCardInfo}.
   */
   info: GooglePayCardInfo | object;
   /** Payment tokenization data for the selected payment method. */
