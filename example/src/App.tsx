@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, ScrollView, StyleSheet, NativeModules } from 'react-native';
+import { Text, ScrollView, StyleSheet } from 'react-native';
 import { 
   NAME, VERSION, GOOGLE_PAY_PMI, 
   PaymentRequest, GooglePayButton, GooglePayButtonConstants
@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
   text: {
     padding: 20,
     fontFamily: 'monospace',
-    whiteSpace: 'pre',
     fontSize: 13,
     textAlign: 'center',
   },
