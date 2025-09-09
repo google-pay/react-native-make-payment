@@ -1,25 +1,8 @@
-/*
- * Copyright 2023 Google LLC.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-import React, { useState } from 'react';
-import { Text, StyleSheet, ScrollView } from 'react-native';
-import {
-  PaymentRequest,
-  GooglePayButton,
-  GooglePayButtonConstants,
+import React from 'react';
+import { Text, ScrollView, StyleSheet, NativeModules } from 'react-native';
+import { 
+  NAME, VERSION, GOOGLE_PAY_PMI, 
+  PaymentRequest, GooglePayButton, GooglePayButtonConstants
 } from '@google/react-native-make-payment';
 
 const paymentDetails = {
@@ -71,7 +54,7 @@ const googlePayRequest = {
 
 const paymentMethods = [
   {
-    supportedMethods: 'google_pay',
+    supportedMethods: GOOGLE_PAY_PMI,
     data: googlePayRequest,
   },
 ];
@@ -79,14 +62,25 @@ const paymentMethods = [
 const paymentRequest = new PaymentRequest(paymentMethods, paymentDetails);
 
 export default function App() {
-  const [text, setText] = React.useState('React Native demo');
+  const [text, setText] = React.useState('');
+  const [disabled, toggleDisabled] = React.useState(true);
+  const isTurbo = (global as any).__turboModuleProxy != null;
+  const isFabric = (global as any).nativeFabricUIManager != null;
+  const isNewArch = isTurbo || isFabric;
+  const archLabel = isNewArch ? 'Turbo/Fabric (newarch=true)' : 'Bridge (newarch=false)';
+
+  React.useEffect(() => {
+    const label =
+    setText(`${NAME}\nversion: ${VERSION}\narch: ${archLabel}`);
+  }, [isNewArch]);
 
   function handleResponse(response) {
-    setText(response);
     console.log(response);
+    setText(response);
   }
 
   function checkCanMakePayment() {
+    toggleDisabled(!disabled);
     paymentRequest
       .canMakePayment()
       .then((canMakePayment) => {
@@ -116,34 +110,48 @@ export default function App() {
       });
   }
 
-  var styles = StyleSheet.create({
-    scrollView: {
-      flexGrow: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    googlepaybutton: {
-      height: 100,
-      width: 300,
-    },
-  });
-
   return (
-    <ScrollView contentContainerStyle={styles.scrollView}>
-      {/*
-        Showing the Google Pay button in any case. You might want to
-        do a paymentRequest.canMakePayment() check upfront and only
-        conditionally show the button
-      */}
+    <ScrollView contentContainerStyle={styles.container}>
       <GooglePayButton
-        style={styles.googlepaybutton}
         onPress={checkCanMakePayment}
+        style={styles.googlePayButtonDonate}
+        radius={10}
+        disabled={disabled}
+        allowedPaymentMethods={googlePayRequest.allowedPaymentMethods}
+        theme={GooglePayButtonConstants.Themes.Light}
+        type={GooglePayButtonConstants.Types.Donate}
+      />
+      <GooglePayButton
+        onPress={checkCanMakePayment}
+        style={styles.googlePayButtonBuy}
+        radius={150}
+        disabled={!disabled}
         allowedPaymentMethods={googlePayRequest.allowedPaymentMethods}
         theme={GooglePayButtonConstants.Themes.Dark}
         type={GooglePayButtonConstants.Types.Buy}
-        radius={4}
       />
-      <Text style="{{font-family: monospace, white-space: pre}}">{text}</Text>
+      <Text style={styles.text}>{text}</Text>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  googlePayButtonDonate: {
+    width: 350,
+  },
+  googlePayButtonBuy: {
+    width: 150,
+  },
+  text: {
+    padding: 20,
+    fontFamily: 'monospace',
+    whiteSpace: 'pre',
+    fontSize: 13,
+    textAlign: 'center',
+  },
+});
