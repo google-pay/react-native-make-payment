@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
   text: {
     padding: 20,
     fontFamily: 'monospace',
-    whiteSpace: 'pre',
     fontSize: 13,
     textAlign: 'center',
   },
