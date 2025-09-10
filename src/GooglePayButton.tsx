@@ -69,6 +69,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const GooglePayButtonConstants = GooglePayButtonConstantsModule.loadConstants();
+const GooglePayButtonConstants = GooglePayButtonConstantsModule?.loadConstants();
 
 export { GooglePayButton, GooglePayButtonConstants };
