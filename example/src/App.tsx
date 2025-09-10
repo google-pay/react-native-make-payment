@@ -118,8 +118,8 @@ export default function App() {
         radius={10}
         disabled={disabled}
         allowedPaymentMethods={googlePayRequest.allowedPaymentMethods}
-        theme={GooglePayButtonConstants.Themes.Light}
-        type={GooglePayButtonConstants.Types.Donate}
+        theme={GooglePayButtonConstants!.Themes.Light}
+        type={GooglePayButtonConstants!.Types.Donate}
       />
       <GooglePayButton
         onPress={checkCanMakePayment}
@@ -127,8 +127,8 @@ export default function App() {
         radius={150}
         disabled={!disabled}
         allowedPaymentMethods={googlePayRequest.allowedPaymentMethods}
-        theme={GooglePayButtonConstants.Themes.Dark}
-        type={GooglePayButtonConstants.Types.Buy}
+        theme={GooglePayButtonConstants!.Themes.Dark}
+        type={GooglePayButtonConstants!.Types.Buy}
       />
       <Text style={styles.text}>{text}</Text>
     </ScrollView>

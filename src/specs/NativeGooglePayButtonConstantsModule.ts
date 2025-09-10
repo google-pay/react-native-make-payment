@@ -19,7 +19,7 @@ export interface Constants {
 }
 
 export interface Spec extends TurboModule {
-  loadConstants(): Constants;
+  loadConstants(): Constants | null;
 }
 
 export default (
