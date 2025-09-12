@@ -19,18 +19,7 @@ yarn && yarn example
 
 ## Configuration
 
-To enable Google Pay in your app, you need to add the
-following Google Pay API meta-data element to the
-`<application>` element of your project's `AndroidManifest.xml`
-file (typically `android/app/src/main/AndroidManifest.xml`):
-
-```
-<meta-data
-  android:name="com.google.android.gms.wallet.api.enabled"
-  android:value="true" />
-```
-
-For production, you will also need to define the
+For production, you will need to define the
 `GOOGLE_PAY_ENVIRONMENT` property in your project's
 `gradle.properties` file (typically `android/gradle.properties`):
 
