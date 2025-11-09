@@ -121,21 +121,30 @@ export type GooglePayPaymentMethodData = {
 * https://developers.google.com/pay/api/web/reference/response-objects#PaymentData
 */
 export type GooglePayPaymentData = {
-  /**
-  * Major API version.
-  * The value in the response matches the value provided in {@link https://developers.google.com/pay/api/web/reference/request-objects#PaymentDataRequest|PaymentDataRequest}.
-  */
+  /** Major API version. */
   apiVersion: number;
-  /**
-  * Minor API version.
-  * The value in the response matches the value provided in {@link https://developers.google.com/pay/api/web/reference/request-objects#PaymentDataRequest|PaymentDataRequest}.
-  */
+  /** Minor API version. */
   apiVersionMinor: number;
   /** Data about the selected payment method. */
   paymentMethodData: GooglePayPaymentMethodData;
+  /** Optional payer email if requested. */
+  email?: string;
+  /** Optional shipping address if requested. */
+  shippingAddress?: GooglePayAddress;
+};
+
+/**
+ * Request payload sent to Google Pay.
+ * Aligns with PaymentDataRequest and excludes response-only fields.
+ * https://developers.google.com/pay/api/web/reference/request-objects#PaymentDataRequest
+ */
+export type GooglePayPaymentDataRequest = {
+  apiVersion: number;
+  apiVersionMinor: number;
   allowedPaymentMethods: GooglePayPaymentMethod[];
   transactionInfo: GooglePayTransactionInfo;
-  merchantInfo: GooglePayMerchantInfo;
+  /** Optional; limited to merchantName for requests. */
+  merchantInfo?: GooglePayMerchantInfoRequest;
 };
 
 export type GooglePayPaymentMethod = {
@@ -167,14 +176,27 @@ export type GooglePayMerchantInfo = {
   softwareInfo: GooglePaySoftwareInfo;
 };
 
+/** Request-only merchant info shape. */
+export type GooglePayMerchantInfoRequest = {
+  /** Merchant identifier used in production; optional in test. */
+  merchantId?: string;
+  /** Display name shown in the Google Pay sheet. */
+  merchantName?: string;
+  /**
+   * Library-populated software info to identify the integrator.
+   * Always set by PaymentRequest before invoking the native module.
+   */
+  softwareInfo?: GooglePaySoftwareInfo;
+};
+
 export type GooglePaySoftwareInfo = {
   id: string;
   version: string;
 };
 
 export interface Spec extends TurboModule {
-  isReadyToPay(data: GooglePayPaymentData): Promise<boolean>;
-  loadPaymentData(data: GooglePayPaymentData): Promise<GooglePayPaymentData>;
+  isReadyToPay(data: GooglePayPaymentDataRequest): Promise<boolean>;
+  loadPaymentData(data: GooglePayPaymentDataRequest): Promise<GooglePayPaymentData>;
 };
 
 export default (
