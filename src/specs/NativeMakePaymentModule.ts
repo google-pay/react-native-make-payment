@@ -111,7 +111,9 @@ export type GooglePayPaymentMethodData = {
   * The value of this property depends on the payment method `type` returned.
   * For `CARD`, see {@link GooglePayCardInfo}.
   */
-  info: GooglePayCardInfo | object;
+  // Restrict to the CARD shape to satisfy RN iOS codegen
+  // (union and broad `object` are not supported inside structs).
+  info: GooglePayCardInfo;
   /** Payment tokenization data for the selected payment method. */
   tokenizationData?: GooglePayPaymentMethodTokenizationData
 }
