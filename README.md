@@ -32,8 +32,8 @@ GOOGLE_PAY_ENVIRONMENT=PRODUCTION
 Following is a minimal example. A complete example can be
 found in `example/src/App.tsx`.
 
-```js
-import { PaymentRequest } from '@google/react-native-make-payment';
+```ts
+import { PaymentRequest, type W3CGooglePayPaymentMethod, type GooglePayPaymentDataRequest } from '@google/react-native-make-payment';
 
 const paymentDetails = {
   total: {
@@ -44,12 +44,12 @@ const paymentDetails = {
   },
 };
 
-const googlePayRequest = {
+const googlePayRequest: GooglePayPaymentDataRequest = {
   // Google Pay API JSON request object, see:
   // https://developers.google.com/pay/api/android/reference/request-objects
 };
 
-const paymentMethods = [
+const paymentMethods: W3CGooglePayPaymentMethod[] = [
   {
     supportedMethods: 'google_pay',
     data: googlePayRequest,

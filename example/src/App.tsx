@@ -4,6 +4,7 @@ import {
   NAME, VERSION, GOOGLE_PAY_PMI, 
   PaymentRequest, GooglePayButton, GooglePayButtonConstants
 } from '@google/react-native-make-payment';
+import type { GooglePayPaymentDataRequest, W3CGooglePayPaymentMethod } from '@google/react-native-make-payment';
 
 const paymentDetails = {
   total: {
@@ -14,7 +15,7 @@ const paymentDetails = {
   },
 };
 
-const googlePayRequest = {
+const googlePayRequest: GooglePayPaymentDataRequest = {
   apiVersion: 2,
   apiVersionMinor: 0,
   allowedPaymentMethods: [
@@ -52,7 +53,7 @@ const googlePayRequest = {
   },
 };
 
-const paymentMethods = [
+const paymentMethods: W3CGooglePayPaymentMethod[] = [
   {
     supportedMethods: GOOGLE_PAY_PMI,
     data: googlePayRequest,

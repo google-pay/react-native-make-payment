@@ -7,7 +7,8 @@ export type GooglePayPaymentDataRequest = {
   apiVersionMinor: number;
   allowedPaymentMethods: GooglePayPaymentMethod[];
   transactionInfo: GooglePayTransactionInfo;
-  merchantInfo: GooglePayMerchantInfo;
+  /** Optional; limited to merchantName for requests. */
+  merchantInfo?: GooglePayMerchantInfoRequest;
 };
 
 export type GooglePayPaymentMethod = {
@@ -37,6 +38,13 @@ export type GooglePayMerchantInfo = {
   merchantId: string;
   merchantName: string;
   softwareInfo: GooglePaySoftwareInfo;
+};
+
+/** Request-only merchant info shape. */
+export type GooglePayMerchantInfoRequest = {
+  merchantId?: string;
+  merchantName?: string;
+  softwareInfo?: GooglePaySoftwareInfo;
 };
 
 export type GooglePaySoftwareInfo = {
