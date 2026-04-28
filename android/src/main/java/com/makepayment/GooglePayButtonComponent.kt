@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.uimanager.PixelUtil
@@ -16,6 +17,10 @@ class GooglePayButtonComponent : FrameLayout {
   var theme = 1
   var cornerRadius = 10
   private var button: PayButton? = null
+
+  private val onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+    requestLayout()
+  }
 
   constructor(context: Context) : super(context) {
     configureComponent()
@@ -37,7 +42,7 @@ class GooglePayButtonComponent : FrameLayout {
     removeView(button)
     button = initializeGooglePayButton()
     addView(button)
-    viewTreeObserver.addOnGlobalLayoutListener { requestLayout() }
+    viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
   }
 
   private fun initializeGooglePayButton(): PayButton {
@@ -56,6 +61,11 @@ class GooglePayButtonComponent : FrameLayout {
       }
     };
     return googlePayButton
+  }
+
+  override fun onDetachedFromWindow() {
+    super.onDetachedFromWindow()
+    viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
   }
 
    override fun requestLayout() {
