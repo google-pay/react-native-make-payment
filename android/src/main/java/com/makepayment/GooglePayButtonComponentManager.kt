@@ -31,7 +31,7 @@ class GooglePayButtonComponentManager(context: ReactApplicationContext) : Simple
     view?.allowedPaymentMethods = value!!
   }
 
-  @ReactProp(name = "buttonType")
+  @ReactProp(name = "type")
   override fun setType(view: GooglePayButtonComponent, type: Int) {
     view.type = type
   }
