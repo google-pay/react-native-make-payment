@@ -116,7 +116,7 @@ class MakePaymentModule(reactContext: ReactApplicationContext) :
       return
     }
 
-    val activity = currentActivity
+    val activity = reactApplicationContext.currentActivity
     if (activity == null) {
       promise?.reject("E_ACTIVITY_DOES_NOT_EXIST", "Activity doesn't exist")
       return
