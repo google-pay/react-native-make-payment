@@ -16,7 +16,9 @@
     "src",
     "README.md",
     "LICENSE",
-    "package.json"
+    "package.json",
+    "app.plugin.js",
+    "plugin/build"
   ],
   "scripts": {
     "example": "yarn install & cd example && yarn install && yarn android",
@@ -24,8 +26,9 @@
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "rm -rf yarn.lock, example/yarn.lock android/build example/android/build example/android/app/build lib node_modules example/node_modules",
-    "build": "bob build",
-    "prepack": "bob build",
+    "build": "bob build && yarn build:plugin",
+    "build:plugin": "tsc --project plugin/tsconfig.json",
+    "prepack": "yarn build",
     "codegen": "cd example/android && ./gradlew generateCodegenArtifactsFromSchema && cd ../."
   },
   "keywords": [
@@ -59,6 +62,7 @@
     "@eslint/compat": "^1.2.7",
     "@eslint/eslintrc": "^3.3.0",
     "@eslint/js": "^9.22.0",
+    "@expo/config-plugins": "~10.1.2",
     "@react-native-community/cli": "17.0.1",
     "@react-native/babel-preset": "0.79.2",
     "@react-native/eslint-config": "^0.78.0",
