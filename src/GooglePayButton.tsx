@@ -1,8 +1,13 @@
-import { StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, Pressable, View } from 'react-native';
 import type { ViewProps, StyleProp, ViewStyle } from 'react-native';
+import type { ReactNode } from 'react';
 import GooglePayButtonComponent from './specs/NativeGooglePayButtonComponent';
 import GooglePayButtonConstantsModule from './specs/NativeGooglePayButtonConstantsModule';
-import type { GooglePayPaymentMethod } from './specs/NativeGooglePayButtonComponent'
+import type { GooglePayPaymentMethod } from './specs/NativeGooglePayButtonComponent';
+import { Loader } from './Loader';
+
+const GooglePayButtonConstants =
+  GooglePayButtonConstantsModule?.loadConstants();
 
 export interface Props extends ViewProps {
   allowedPaymentMethods: GooglePayPaymentMethod[];
@@ -12,6 +17,8 @@ export interface Props extends ViewProps {
   onPress: () => void;
   disabled: boolean;
   style: StyleProp<ViewStyle>;
+  loading?: boolean;
+  loader?: ReactNode;
 }
 
 const GooglePayButton = ({
@@ -22,13 +29,15 @@ const GooglePayButton = ({
   type,
   radius,
   style,
+  loading,
+  loader,
 }: Props) => {
   return (
     <Pressable
       onPress={onPress}
-      disabled={disabled}
+      disabled={disabled || loading}
       style={[
-        disabled ? styles.disabled : styles.enabled,
+        disabled || loading ? styles.disabled : styles.enabled,
         styles.overridable,
         style,
         styles.fixed,
@@ -40,8 +49,13 @@ const GooglePayButton = ({
         type={type}
         theme={theme}
         radius={radius}
-        style={[styles.button, styles.nobg]}
+        style={[styles.button, styles.nobg, loading && styles.hidden]}
       />
+      {loading && (
+        <View style={styles.loaderContainer}>
+          {loader || <Loader theme={theme} />}
+        </View>
+      )}
     </Pressable>
   );
 };
@@ -67,8 +81,14 @@ const styles = StyleSheet.create({
   nobg: {
     backgroundColor: 'rgba(0, 0, 0, 0)',
   },
+  hidden: {
+    opacity: 0,
+  },
+  loaderContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
-
-const GooglePayButtonConstants = GooglePayButtonConstantsModule?.loadConstants();
 
 export { GooglePayButton, GooglePayButtonConstants };
