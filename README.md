@@ -19,12 +19,34 @@ yarn && yarn example
 
 ## Configuration
 
+### React Native CLI
+
 For production, you will need to define the
 `GOOGLE_PAY_ENVIRONMENT` property in your project's
 `gradle.properties` file (typically `android/gradle.properties`):
 
-```
+```properties
 GOOGLE_PAY_ENVIRONMENT=PRODUCTION
+```
+
+### Expo
+
+Add the config plugin to your Expo app config. The `environment`
+option accepts `TEST` (default) or `PRODUCTION`:
+
+```json
+{
+  "expo": {
+    "plugins": [
+      [
+        "@google/react-native-make-payment",
+        {
+          "environment": "PRODUCTION"
+        }
+      ]
+    ]
+  }
+}
 ```
 
 ## Usage
